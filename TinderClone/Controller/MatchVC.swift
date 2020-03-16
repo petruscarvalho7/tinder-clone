@@ -50,7 +50,7 @@ class MatchVC: UIViewController, UITextFieldDelegate {
     
     func setupLayout() {
         view.addSubview(photo)
-        photo.preencherSuperview()
+        photo.fillAllSuperview()
         
         messageLabel.textAlignment = .center
         
@@ -63,7 +63,7 @@ class MatchVC: UIViewController, UITextFieldDelegate {
         messageTextField.delegate = self
         messageTextField.addSubview(sendBtn)
         
-        sendBtn.preencher(
+        sendBtn.fill(
             top: messageTextField.topAnchor,
             leading: nil,
             trailing: messageTextField.trailingAnchor,
@@ -86,7 +86,7 @@ class MatchVC: UIViewController, UITextFieldDelegate {
         
         view.addSubview(stackView)
         
-        stackView.preencher(
+        stackView.fill(
             top: nil,
             leading: view.leadingAnchor,
             trailing: view.trailingAnchor,

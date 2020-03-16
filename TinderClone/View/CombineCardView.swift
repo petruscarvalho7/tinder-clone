@@ -42,7 +42,7 @@ class CombineCardView: UIView {
         
         addSubview(photoImageView)
         
-        photoImageView.preencherSuperview()
+        photoImageView.fillAllSuperview()
         
         let ageAndNameStackView = UIStackView(arrangedSubviews: [nameLabel, ageLabel, UIView()])
         ageAndNameStackView.spacing = 12
@@ -55,7 +55,7 @@ class CombineCardView: UIView {
         addSubview(dislikeImageView)
         addSubview(stackView)
         
-        stackView.preencher(
+        stackView.fill(
             top: nil,
             leading: leadingAnchor,
             trailing: trailingAnchor,
@@ -63,7 +63,7 @@ class CombineCardView: UIView {
             padding: .init(top: 0, left: 16, bottom: 16, right: 16)
         )
         
-        likeImageView.preencher(
+        likeImageView.fill(
             top: topAnchor,
             leading: leadingAnchor,
             trailing: nil,
@@ -71,7 +71,7 @@ class CombineCardView: UIView {
             padding: .init(top: 20, left: 20, bottom: 0, right: 0)
         )
         
-        dislikeImageView.preencher(
+        dislikeImageView.fill(
            top: topAnchor,
            leading: nil,
            trailing: trailingAnchor,

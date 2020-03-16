@@ -10,7 +10,7 @@ import UIKit
 
 extension UIView {
   
-  func preencher (top: NSLayoutYAxisAnchor?, leading: NSLayoutXAxisAnchor?, trailing: NSLayoutXAxisAnchor?, bottom: NSLayoutYAxisAnchor?, padding: UIEdgeInsets = .zero, size: CGSize = .zero) {
+  func fill (top: NSLayoutYAxisAnchor?, leading: NSLayoutXAxisAnchor?, trailing: NSLayoutXAxisAnchor?, bottom: NSLayoutYAxisAnchor?, padding: UIEdgeInsets = .zero, size: CGSize = .zero) {
     translatesAutoresizingMaskIntoConstraints = false
     
     if let top = top {
@@ -38,8 +38,8 @@ extension UIView {
     }
   }
   
-  func preencherSuperview (padding: UIEdgeInsets = .zero) {
-    preencher(
+  func fillAllSuperview (padding: UIEdgeInsets = .zero) {
+    fill(
       top: superview?.topAnchor,
       leading: superview?.leadingAnchor,
       trailing: superview?.trailingAnchor,
@@ -48,7 +48,7 @@ extension UIView {
     )
   }
   
-  func centralizarSuperview (size: CGSize = .zero) {
+  func fillSuperview (size: CGSize = .zero) {
     translatesAutoresizingMaskIntoConstraints = false
     
     if let superviewCenterX = superview?.centerXAnchor {

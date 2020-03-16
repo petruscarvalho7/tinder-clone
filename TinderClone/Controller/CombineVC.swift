@@ -79,14 +79,14 @@ extension CombineVC {
         view.addSubview(footerStackView)
         view.addSubview(menuStackView)
         
-        footerStackView.preencher(
+        footerStackView.fill(
             top: nil,
             leading: view.leadingAnchor,
             trailing: view.trailingAnchor,
             bottom: view.bottomAnchor,
             padding: .init(top: 0, left: 16, bottom: bottom, right: 16))
         
-        menuStackView.preencher(
+        menuStackView.fill(
             top: view.topAnchor,
             leading: view.leadingAnchor,
             trailing: view.trailingAnchor,
