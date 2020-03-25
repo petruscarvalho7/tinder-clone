@@ -73,7 +73,6 @@ class MatchVC: UIViewController, UITextFieldDelegate {
         
         sendBtn.addTarget(self, action: #selector(sendMessage), for: .touchUpInside)
 
-        
         like.translatesAutoresizingMaskIntoConstraints = false
         like.heightAnchor.constraint(equalToConstant: 44).isActive = true
         like.contentMode = .scaleAspectFit

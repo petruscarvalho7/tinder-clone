@@ -1,7 +1,7 @@
 //
 //  LoadingView.swift
 //  TinderClone
-//
+//q
 //  Created by PETRUS CARVALHO on 15/03/20.
 //  Copyright © 2020 PETRUS CARVALHO. All rights reserved.
 //

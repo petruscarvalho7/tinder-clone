@@ -29,6 +29,8 @@ class CombineCardView: UIView {
     let likeImageView: UIImageView = .iconCard("card-like")
     let dislikeImageView: UIImageView = .iconCard("card-dislike")
     
+    var callback: ((User) -> Void)?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -55,6 +57,22 @@ class CombineCardView: UIView {
         addSubview(dislikeImageView)
         addSubview(stackView)
         
+        likeImageView.fill(
+             top: topAnchor,
+             leading: leadingAnchor,
+             trailing: nil,
+             bottom: nil,
+             padding: .init(top: 20, left: 20, bottom: 0, right: 0)
+         )
+         
+         dislikeImageView.fill(
+            top: topAnchor,
+            leading: nil,
+            trailing: trailingAnchor,
+            bottom: nil,
+            padding: .init(top: 20, left: 0, bottom: 0, right: 20)
+        )
+        
         stackView.fill(
             top: nil,
             leading: leadingAnchor,
@@ -63,24 +81,20 @@ class CombineCardView: UIView {
             padding: .init(top: 0, left: 16, bottom: 16, right: 16)
         )
         
-        likeImageView.fill(
-            top: topAnchor,
-            leading: leadingAnchor,
-            trailing: nil,
-            bottom: nil,
-            padding: .init(top: 20, left: 20, bottom: 0, right: 0)
-        )
+        //action para detalhes
+        let tap = UITapGestureRecognizer(target: self, action: #selector(getDetails))
+        stackView.isUserInteractionEnabled = true
+        stackView.addGestureRecognizer(tap)
         
-        dislikeImageView.fill(
-           top: topAnchor,
-           leading: nil,
-           trailing: trailingAnchor,
-           bottom: nil,
-           padding: .init(top: 20, left: 0, bottom: 0, right: 20)
-       )
     }
     
     required init?(coder: NSCoder) {
         fatalError()
+    }
+    
+    @objc func getDetails() {
+        if let user = self.user {
+            self.callback?(user)
+        }
     }
 }
