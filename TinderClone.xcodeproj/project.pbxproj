@@ -27,6 +27,10 @@
 		B2EBD241241FA8F2008129DF /* MatchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2EBD240241FA8F2008129DF /* MatchVC.swift */; };
 		B2EBD243241FAD3C008129DF /* UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2EBD242241FAD3C008129DF /* UITextField.swift */; };
 		B2EC38D4242AC64F00E49022 /* DetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2EC38D3242AC64F00E49022 /* DetailsVC.swift */; };
+		F4071C052A38A3F5006C222F /* SlidePhotosVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4071C042A38A3F5006C222F /* SlidePhotosVC.swift */; };
+		F4071C072A38A85F006C222F /* SlidePhotoItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4071C062A38A85F006C222F /* SlidePhotoItemCell.swift */; };
+		F4E398982A378CA1007B67FA /* DetailsProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E398972A378CA1007B67FA /* DetailsProfileCell.swift */; };
+		F4E3989A2A3798F1007B67FA /* DetailsPhotosCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E398992A3798F1007B67FA /* DetailsPhotosCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +56,10 @@
 		B2EBD240241FA8F2008129DF /* MatchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchVC.swift; sourceTree = "<group>"; };
 		B2EBD242241FAD3C008129DF /* UITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextField.swift; sourceTree = "<group>"; };
 		B2EC38D3242AC64F00E49022 /* DetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsVC.swift; sourceTree = "<group>"; };
+		F4071C042A38A3F5006C222F /* SlidePhotosVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlidePhotosVC.swift; sourceTree = "<group>"; };
+		F4071C062A38A85F006C222F /* SlidePhotoItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlidePhotoItemCell.swift; sourceTree = "<group>"; };
+		F4E398972A378CA1007B67FA /* DetailsProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsProfileCell.swift; sourceTree = "<group>"; };
+		F4E398992A3798F1007B67FA /* DetailsPhotosCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsPhotosCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +115,7 @@
 				B24BA70D241D9A500082FD7E /* CombineVC.swift */,
 				B2EBD240241FA8F2008129DF /* MatchVC.swift */,
 				B2EC38D3242AC64F00E49022 /* DetailsVC.swift */,
+				F4071C042A38A3F5006C222F /* SlidePhotosVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -117,6 +126,9 @@
 				B24BA710241DA1520082FD7E /* CombineCardView.swift */,
 				B2EBD23E241F062A008129DF /* LoadingView.swift */,
 				B2A14DBB242AD22B00A127BB /* DetailsHeaderView.swift */,
+				F4E398972A378CA1007B67FA /* DetailsProfileCell.swift */,
+				F4E398992A3798F1007B67FA /* DetailsPhotosCell.swift */,
+				F4071C062A38A85F006C222F /* SlidePhotoItemCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -234,10 +246,14 @@
 				B24BA6FD241D99A30082FD7E /* ViewController.swift in Sources */,
 				B2EC38D4242AC64F00E49022 /* DetailsVC.swift in Sources */,
 				B24BA716241DA67E0082FD7E /* UILabel.swift in Sources */,
+				F4E398982A378CA1007B67FA /* DetailsProfileCell.swift in Sources */,
 				B2EBD23F241F062A008129DF /* LoadingView.swift in Sources */,
 				B24BA711241DA1520082FD7E /* CombineCardView.swift in Sources */,
+				F4071C052A38A3F5006C222F /* SlidePhotosVC.swift in Sources */,
 				B2EBD23B241ED5E6008129DF /* UIImageView.swift in Sources */,
 				B24BA6F9241D99A30082FD7E /* AppDelegate.swift in Sources */,
+				F4071C072A38A85F006C222F /* SlidePhotoItemCell.swift in Sources */,
+				F4E3989A2A3798F1007B67FA /* DetailsPhotosCell.swift in Sources */,
 				B2EBD243241FAD3C008129DF /* UITextField.swift in Sources */,
 				B2EBD23D241EE283008129DF /* UIButton.swift in Sources */,
 				B2A14DBF242AD62100A127BB /* HeaderDetailLayout.swift in Sources */,

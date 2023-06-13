@@ -30,6 +30,24 @@ extension UIButton {
         return btn
     }
     
+    static func btnBack() -> UIButton {
+        let btn = UIButton()
+        btn.size(size: .init(width: 32, height: 32))
+        btn.setImage(UIImage(named: "icon-back"), for: .normal)
+        btn.backgroundColor = .white
+        btn.layer.cornerRadius = 16
+        btn.clipsToBounds = true
+        
+        //shadow
+        btn.layer.shadowColor = UIColor.black.cgColor
+        btn.layer.shadowRadius = 3.0
+        btn.layer.shadowOpacity = 0.1
+        btn.layer.shadowOffset = CGSize(width: 1, height: 1)
+        btn.layer.masksToBounds = false
+        
+        return btn
+    }
+    
     static func btnMenu(_ name: String? = nil) -> UIButton {
         let btn = UIButton()
         btn.size(size: .init(width: 32, height: 32))

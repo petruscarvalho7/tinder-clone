@@ -8,6 +8,12 @@
 
 import UIKit
 
+protocol ActionsDelegate {
+    func like()
+    func dislike()
+    func superLike()
+}
+
 enum ActionLike {
     case like
     case dislike
@@ -150,6 +156,7 @@ extension CombineVC {
         let detailVC = DetailsVC()
         detailVC.modalPresentationStyle = .fullScreen
         detailVC.user = user
+        detailVC.actionsDelegate = self
         
         self.present(detailVC, animated: true, completion: nil)
     }
@@ -157,15 +164,15 @@ extension CombineVC {
 
 extension CombineVC {
     
-    @objc func dislikeAction() {
+    @objc func dislikeAction(hasAnimation: Bool = true) {
         animateCard(rotationAngle: -0.4, action: .dislike)
     }
     
-    @objc func likeAction() {
+    @objc func likeAction(hasAnimation: Bool = true) {
         animateCard(rotationAngle: 0.4, action: .like)
     }
     
-    @objc func superlikeAction() {
+    @objc func superlikeAction(hasAnimation: Bool = true) {
         animateCard(rotationAngle: 0, action: .superlike)
     }
     
@@ -188,7 +195,6 @@ extension CombineVC {
             card.transform = CGAffineTransform(rotationAngle: rotationAngle)
             
             if gesture.state == .ended {
-                
                 if card.center.x > self.view.bounds.width + 50 {
                     self.animateCard(rotationAngle: rotationAngle, action: .like)
                     return
@@ -210,7 +216,7 @@ extension CombineVC {
         }
     }
     
-    func animateCard(rotationAngle: CGFloat, action: ActionLike) {
+    func animateCard(rotationAngle: CGFloat, action: ActionLike, hasAnimation: Bool = false) {
         if let user = self.users.first {
             for view in self.view.subviews {
                 if view.tag == user.id {
@@ -231,20 +237,45 @@ extension CombineVC {
                                 like = true
                         }
                         
-                        UIView.animate(withDuration: 1.2, animations: {
-                            card.center = center
-                            card.transform = CGAffineTransform(rotationAngle: rotationAngle)
-                            
-                            //alphas like/dislike
-                            card.likeImageView.alpha = like ? 1 : 0
-                            card.dislikeImageView.alpha = like ? 0 : 1
-                        }) { (_) in
+                        if (hasAnimation) {
+                            UIView.animate(withDuration: 1.2, animations: {
+                                card.center = center
+                                card.transform = CGAffineTransform(rotationAngle: rotationAngle)
+                                
+                                //alphas like/dislike
+                                card.likeImageView.alpha = like ? 1 : 0
+                                card.dislikeImageView.alpha = like ? 0 : 1
+                            }) { (_) in
+                                self.removeCard(card)
+                                if (like) {
+                                    self.matchVerify(user: user)
+                                }
+                            }
+                        } else {
                             self.removeCard(card)
-                            self.matchVerify(user: user)
+                            if (like) {
+                                self.matchVerify(user: user)
+                            }
                         }
                     }
                 }
             }
         }
     }
+}
+
+extension CombineVC: ActionsDelegate {
+    func like() {
+        self.likeAction(hasAnimation: false)
+    }
+    
+    func dislike() {
+        self.dislikeAction(hasAnimation: false)
+    }
+    
+    func superLike() {
+        self.superlikeAction(hasAnimation: false)
+    }
+    
+    
 }

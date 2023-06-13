@@ -40,4 +40,13 @@ class UserService {
             completion(self.users, nil)
         }
     }
+    
+    func getUsersPhotos(completion: @escaping ([String]?, Error?) -> ()) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            let userImages = self.users.map { user in
+                return user.photo
+            }
+            completion(userImages, nil)
+        }
+    }
 }

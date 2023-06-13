@@ -23,4 +23,8 @@ class DetailsHeaderView: UICollectionReusableView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func populate(photo: String) {
+        imageBackground.image = UIImage(named: photo)
+    }
 }
