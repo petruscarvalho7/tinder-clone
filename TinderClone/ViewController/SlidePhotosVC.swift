@@ -7,11 +7,14 @@
 //
 
 import UIKit
+import Combine
 
 class SlidePhotosVC: UICollectionViewController {
     
+    private let slidePhotosViewModel: SlidePhotosViewModel = SlidePhotosViewModel()
+    private var cancelables = Set<AnyCancellable>()
+    
     let cellId = "cellId"
-    var userPhotos: [String]?
     
     init() {
         let layout = UICollectionViewFlowLayout()
@@ -25,9 +28,21 @@ class SlidePhotosVC: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        setupBinders()
         getUserPhotos()
         setupViews()
+    }
+    
+    func setupBinders() {
+        slidePhotosViewModel.$userPhotos
+            .receive(on: RunLoop.main)
+            .sink { userPhotos in
+                if !userPhotos.isEmpty {
+                    self.collectionView.reloadData()
+                }
+            }
+            .store(in: &cancelables)
     }
     
     fileprivate func setupViews() {
@@ -37,29 +52,22 @@ class SlidePhotosVC: UICollectionViewController {
     }
     
     private func getUserPhotos() {
-        UserService.shared.getUsersPhotos{ (photos, err) in
-            if let photos = photos {
-                DispatchQueue.main.async {
-                    self.userPhotos = photos
-
-                    self.collectionView.reloadData()
-                }
-            }
-        }
+        slidePhotosViewModel.getUsersPhotos()
     }
 }
 
 extension SlidePhotosVC {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return userPhotos?.count ?? 0
+        return slidePhotosViewModel.userPhotos.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as? SlidePhotoItemCell else {
             return UICollectionViewCell()
         }
-        if let photoName: String = userPhotos?[indexPath.item] {
-            cell.photo = photoName
+        if slidePhotosViewModel.userPhotos.count > indexPath.item
+        {
+            cell.photo = slidePhotosViewModel.userPhotos[indexPath.item]
         }
         return cell
     }

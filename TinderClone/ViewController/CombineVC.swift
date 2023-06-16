@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Combine
 
 protocol ActionsDelegate {
     func like()
@@ -21,8 +22,8 @@ enum ActionLike {
 }
 
 class CombineVC: UIViewController {
-    
-    var users: [User] = []
+    private let combineViewModel: CombineViewModel = CombineViewModel()
+    private var cancelables = Set<AnyCancellable>()
     
     let profileBtn: UIButton = .btnMenu("icone-perfil")
     let tinderBtn: UIButton = .btnMenu("icone-logo")
@@ -41,29 +42,36 @@ class CombineVC: UIViewController {
         let loading = LoadingView(frame: view.frame)
         view.insertSubview(loading, at: 0)
         
+        setupBinders()
+        getData()
         addFooterAndMenuBtns()
-        getUsers()
+        setupButtons()
     }
     
-    func getUsers() {
-        //disable buttons before getusers
+    func getData() {
+        self.combineViewModel.getUsers()
+    }
+    
+    func setupButtons() {
+        // buttons initial state
         dislikeBtn.isEnabled = false
         likeBtn.isEnabled = false
         superlikeBtn.isEnabled = false
-        
-        UserService.shared.getUsers { (users, err) in
-            if let users = users {
-                DispatchQueue.main.async {
-                    //if users enabled btns
+    }
+    
+    func setupBinders() {
+        combineViewModel.$users
+            .receive(on: RunLoop.main)
+            .sink { users in
+                if !users.isEmpty {
                     self.dislikeBtn.isEnabled = true
                     self.likeBtn.isEnabled = true
                     self.superlikeBtn.isEnabled = true
-                    
-                    self.users = users
+
                     self.addCards()
                 }
             }
-        }
+            .store(in: &cancelables)
     }
 }
 
@@ -71,7 +79,7 @@ extension CombineVC {
     
     func addFooterAndMenuBtns() {
         
-        //get safearea para iphones com notch
+        //get safearea for iphones with notch
         let window = UIApplication.shared.windows.first { $0.isKeyWindow }
         let top = window?.safeAreaInsets.top ?? 44
         let bottom = window?.safeAreaInsets.bottom ?? 32
@@ -110,8 +118,7 @@ extension CombineVC {
 extension CombineVC {
     
     func addCards() {
-        
-        for user in self.users {
+        for user in self.combineViewModel.users {
             let card = CombineCardView()
             card.frame = CGRect(x: 0, y: 0, width: view.bounds.width - 32, height: view.bounds.height * 0.7)
             
@@ -130,22 +137,18 @@ extension CombineVC {
             
             view.insertSubview(card, at: 1)
         }
-    
     }
     
     func removeCard(_ card: CombineCardView) {
         card.removeFromSuperview()
         
-        self.users = self.users.filter({ (user) -> Bool in
-            return user.id != card.tag
-        })
-        
+        self.combineViewModel.removeCard(card)
     }
     
     func matchVerify(user: User) {
         if user.match {
             let matchVC = MatchVC()
-            matchVC.user = user
+            matchVC.populate(user)
             matchVC.modalPresentationStyle = .fullScreen
             
             present(matchVC, animated: true, completion: nil)
@@ -155,7 +158,7 @@ extension CombineVC {
     func toDetails(_ user: User) {
         let detailVC = DetailsVC()
         detailVC.modalPresentationStyle = .fullScreen
-        detailVC.user = user
+        detailVC.populate(user)
         detailVC.actionsDelegate = self
         
         self.present(detailVC, animated: true, completion: nil)
@@ -217,7 +220,7 @@ extension CombineVC {
     }
     
     func animateCard(rotationAngle: CGFloat, action: ActionLike, hasAnimation: Bool = false) {
-        if let user = self.users.first {
+        if let user = self.combineViewModel.users.first {
             for view in self.view.subviews {
                 if view.tag == user.id {
                     if let card = view as? CombineCardView {
@@ -276,6 +279,4 @@ extension CombineVC: ActionsDelegate {
     func superLike() {
         self.superlikeAction(hasAnimation: false)
     }
-    
-    
 }

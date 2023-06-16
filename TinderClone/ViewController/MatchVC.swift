@@ -7,17 +7,12 @@
 //
 
 import UIKit
+import Combine
 
 class MatchVC: UIViewController, UITextFieldDelegate {
-    
-    var user: User? {
-        didSet {
-            if let user = user {
-                photo.image = UIImage(named: user.photo)
-                messageLabel.text = "\(user.name) também curtiu você"
-            }
-        }
-    }
+
+    private let matchViewModel: MatchViewModel = MatchViewModel()
+    private var cancelables = Set<AnyCancellable>()
     
     let photo: UIImageView = .imageView("pessoa-1")
     let like: UIImageView = .imageView("icone-like")
@@ -46,6 +41,22 @@ class MatchVC: UIViewController, UITextFieldDelegate {
         self.sendMessage()
         
         return true
+    }
+    
+    func populate(_ user: User) {
+        matchViewModel.setUser(user)
+    }
+    
+    func setupBinders() {
+        matchViewModel.$user
+            .receive(on: RunLoop.main)
+            .sink { [weak self] user in
+                if let user = user {
+                    self?.photo.image = UIImage(named: user.photo)
+                    self?.messageLabel.text = "\(user.name) também curtiu você"
+                }
+            }
+            .store(in: &cancelables)
     }
     
     func setupLayout() {

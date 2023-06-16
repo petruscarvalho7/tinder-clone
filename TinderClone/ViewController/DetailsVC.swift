@@ -7,14 +7,12 @@
 //
 
 import UIKit
+import Combine
 
 class DetailsVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
-    var user: User? {
-        didSet {
-            self.collectionView.reloadData()
-        }
-    }
+    private let detailsViewModel: DetailsViewModel = DetailsViewModel()
+    private var cancelables = Set<AnyCancellable>()
     
     // delegate
     var actionsDelegate: ActionsDelegate?
@@ -40,6 +38,8 @@ class DetailsVC: UICollectionViewController, UICollectionViewDelegateFlowLayout 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupBinders()
+        
         // removing safearea
         collectionView.contentInsetAdjustmentBehavior = .never
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 134, right: 0)
@@ -55,6 +55,19 @@ class DetailsVC: UICollectionViewController, UICollectionViewDelegateFlowLayout 
         // setup components
         setupBackButton()
         setupFooter()
+    }
+    
+    func populate(_ user: User) {
+        detailsViewModel.setUser(user)
+    }
+    
+    func setupBinders() {
+        detailsViewModel.$user
+            .receive(on: RunLoop.main)
+            .sink { user in
+                self.collectionView.reloadData()
+            }
+            .store(in: &cancelables)
     }
     
     fileprivate func setupBackButton() {
@@ -105,7 +118,7 @@ class DetailsVC: UICollectionViewController, UICollectionViewDelegateFlowLayout 
     //header view configs
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let headerCell = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath) as! DetailsHeaderView
-        if let photoUser = self.user?.photo {
+        if let photoUser = self.detailsViewModel.user?.photo {
             headerCell.populate(photo: photoUser)
         }
         
@@ -161,9 +174,9 @@ class DetailsVC: UICollectionViewController, UICollectionViewDelegateFlowLayout 
     }
     
     fileprivate func populateDetailsProfileCell(_ cell: DetailsProfileCell?) {
-        if let nameText = self.user?.name,
-           let ageText = self.user?.age,
-           let phraseText = self.user?.slogan {
+        if let nameText = self.detailsViewModel.user?.name,
+           let ageText = self.detailsViewModel.user?.age,
+           let phraseText = self.detailsViewModel.user?.slogan {
             cell?.populateCell(
                 name: nameText,
                 age: String(ageText),
